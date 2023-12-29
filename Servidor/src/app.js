@@ -54,11 +54,18 @@ app.post('/verificar-usuario',async(req,res)=>{
 
 app.post('/buscar-usuario', async (req, res) => {
     try {
+        const nombre = req.body.nombre;
+        const password = req.body.contra;
+
+        if (!nombre || !password) {
+            res.status(400).send("Nombre de usuario y contraseña son obligatorios");
+            return;
+        }
 
         const usuario = await Usuario.findOne({
             where: {
-                nombre: req.body.nombre,
-                password:req.body.contra
+                nombre: nombre,
+                password: password
             }
         });
 
@@ -74,6 +81,7 @@ app.post('/buscar-usuario', async (req, res) => {
         res.status(500).send("Error interno en el servidor");
     }
 });
+
 
 
 app.post('/agregar-tweet', async (req, res) => {

@@ -34,5 +34,44 @@ test('should respond with a 404 status code for an invalid user', async () => {
     expect(response.statusCode).toBe(404);
 });
 
+test('should respond with a 404 status code for an invalid password', async () => {
+    const nombreUsuario = 'pierre';
+    const contrasena = 'contrasenaIncorrecta';
+
+    const response = await request(app)
+        .post('/buscar-usuario')
+        .send({
+            nombre: nombreUsuario,
+            contra: contrasena
+        });
+
+    expect(response.statusCode).toBe(404);
+});
+
+test('should respond with a 400 status code for missing name or password', async () => {
+    const response = await request(app)
+        .post('/buscar-usuario')
+        .send({});
+
+    expect(response.statusCode).toBe(400);
+});
+
+
+test('should respond with a 400 status code for an invalid route', async () => {
+    const response = await request(app)
+        .post('/ruta-invalida')
+        .send({
+            nombre: 'pierre',
+            contra: '123'
+        });
+
+    expect(response.statusCode).toBe(404);
+});
+
+
+
+
+
+
 
 
